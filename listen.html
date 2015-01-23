@@ -1,0 +1,242 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta id="extViewportMeta" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width,user-scalable=no">-->
+
+    <title>Roundware Listen Filtering</title>
+
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+
+    <!--<link rel="stylesheet" href="css/sfms.css">-->
+    <script>document.write('<link rel="stylesheet" href="css/webview.css?v=' + Math.floor(Math.random() * 100000) + '"\>');</script>
+
+</head>
+<body>
+
+    <div id="listen-content">
+        <div id="nav">
+            <span id="select-all">Select All</span>
+            <span id="screen-title">Filter Audio</span>
+            <span id="done">Done</span>
+        </div>
+
+        <div id='gallery'>
+            <nav class="listen">
+                <a href='#' id='prev'></a>
+                <span id='position'></span>
+                <a href='#' id='next'></a>
+            </nav>
+
+            <div id='slider'><ul></ul></div>
+            <!-- <div id="divider"></div> -->
+        </div>
+
+    	<div id="scroller">
+    		<div id="container" class="clearfix"></div>
+        </div>
+    </div>
+
+<script>window.jQuery || document.write('<script src="js/jquery-1.7.1.min.js"><\/script>')</script>
+<script src="js/modernizr-2.5.3.min.js"></script>
+<script src="js/roundware.js"></script>
+<script src="js/jquery.tappable.js"></script>
+<script src="js/swipe.min.js"></script>
+<script src="js/jquery.isotope.min.js"></script>
+<!--<script src="js/listen.js"></script>-->
+<!--force reload of js each time-->
+<script>document.write('<script src="js/listen.js?v=' + Math.floor(Math.random() * 100000) + '"\><\/script>');</script>
+
+<script>
+if ( Modernizr.csstransforms ) {
+	window.mySwipe = new Swipe(document.getElementById('slider'));
+}
+
+Roundware.tags = {
+    "listen": [
+        {
+            "code": "gender",
+            "defaults": [
+                3,
+                4
+            ],
+            "header_text": "",
+            "name": "Select gender(s)",
+            "options": [
+                {
+                    "data": "class=tag-one",
+                    "description": "male",
+                    "loc_description": "",
+                    "order": 1,
+                    "relationships": [],
+                    "shortcode": "male",
+                    "tag_id": 3,
+                    "value": "male"
+                },
+                {
+                    "data": "class=tag-one",
+                    "description": "female",
+                    "loc_description": "",
+                    "order": 1,
+                    "relationships": [],
+                    "shortcode": "female",
+                    "tag_id": 4,
+                    "value": "female"
+                }
+            ],
+            "order": 1,
+            "select": "multi"
+        },
+        {
+            "code": "age",
+            "defaults": [
+                1,
+                2
+            ],
+            "header_text": "",
+            "name": "Select age(s)",
+            "options": [
+                {
+                    "data": "class=tag-one",
+                    "description": "young\r\n",
+                    "loc_description": "",
+                    "order": 1,
+                    "relationships": [],
+                    "shortcode": "young",
+                    "tag_id": 1,
+                    "value": "young"
+                },
+                {
+                    "data": "class=tag-one",
+                    "description": "old",
+                    "loc_description": "",
+                    "order": 2,
+                    "relationships": [],
+                    "shortcode": "old",
+                    "tag_id": 2,
+                    "value": "old"
+                }
+            ],
+            "order": 2,
+            "select": "multi"
+        },
+        {
+            "code": "question",
+            "defaults": [
+                5,
+                6,
+                7
+            ],
+            "header_text": "",
+            "name": "What topics do you want to listen to?",
+            "options": [
+                {
+                    "data": "class=tag-two",
+                    "description": "What do you remember?\r\n",
+                    "loc_description": "",
+                    "order": 1,
+                    "relationships": [],
+                    "shortcode": "remember",
+                    "tag_id": 5,
+                    "value": "What is your favorite memory?"
+                },
+                {
+                    "data": "class=tag-two",
+                    "description": "What did you eat today?",
+                    "loc_description": "",
+                    "order": 2,
+                    "relationships": [],
+                    "shortcode": "eat",
+                    "tag_id": 6,
+                    "value": "What did you eat today?"
+                },
+                {
+                    "data": "class=tag-two",
+                    "description": "What is favorite place to visit?",
+                    "loc_description": "",
+                    "order": 3,
+                    "relationships": [],
+                    "shortcode": "place",
+                    "tag_id": 7,
+                    "value": "What is your favorite place to visit?"
+                }
+            ],
+            "order": 3,
+            "select": "multi"
+        }
+    ]
+};
+
+// The following line is replaced by the app
+/*%roundware_tags%*/
+
+// turn off scrolling for the entire page
+document.ontouchmove = function(e) {e.preventDefault()};
+
+// enable scrolling within a particular div
+scroller.ontouchmove = function(e) { e.stopPropagation(); };
+
+// disable rubberband scrolling in safari
+document.body.addEventListener('touchmove', function(event) {
+	console.log(event.source);
+  	//if (event.source == document.body)
+	event.preventDefault();
+}, false);
+
+window.onresize = function() {
+  $(document.body).width(window.innerWidth).height(window.innerHeight);
+}
+
+$(function() {
+  window.onresize();
+
+//  if (window.devicePixelRatio == 2) {
+//
+//          var images = $(".hires");
+//
+//          // loop through the images and make them hi-res
+//          for(var i = 0; i < images.length; i++) {
+//
+//          	// create new image name
+//          	var imageType = images[i].src.substr(-4);
+//         	var imageName = images[i].src.substr(0, images[i].src.length - 4);
+//          	imageName += "@2x" + imageType;
+//
+//          	//rename image
+//          	images[i].src = imageName;
+//			console.log("retina");
+// 		 }
+//	}
+
+	// allow for list area #scroller to expand to fit whatever space is available in lower portion of window
+	var gallery_height = $('#gallery').height();
+	remaining_height = parseInt($(window).height() - gallery_height - 44); // subtract sum of margins and padding values to match properly (44 w/ nav controls)
+	$('#scroller').height(remaining_height);
+
+	window.onresize = function() {
+  		var gallery_height = $('#gallery').height();
+		remaining_height = parseInt($(window).height() - gallery_height - 44);
+		$('#scroller').height(remaining_height);
+	}
+
+});
+
+var slider_pos = 0;
+
+// attempt to get screen to relayout elements so that all elements display consistently
+function dom_knock() {
+    $( "#screen-title" ).fadeTo( "fast" , 0.99, function() {
+      // Animation complete.
+    });
+}
+
+dom_knock();
+
+</script>
+
+</body>
+</html>
